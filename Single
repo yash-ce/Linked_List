@@ -1,0 +1,309 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+int data;
+struct node *next;
+};
+
+struct node* count_node(struct node*);
+struct node* print_node(struct node*);
+struct node* add_beg(struct node*, int);
+struct node* add_end(struct node*, int);
+struct node* add_mid(struct node*, int);
+struct node* del_beg(struct node*);
+struct node* del_end(struct node*);
+struct node* del_mid(struct node*, int);
+struct node* sort_node(struct node*);
+struct node* reverse_node(struct node*);
+struct node* mid_node(struct node*);
+struct node* search_node(struct node*, int);
+int main()
+{
+    struct node *first, *second, *third, *head;
+    first = (struct node*)malloc(sizeof(struct node));
+    first->data = 12;
+    first->next = NULL;
+    second = (struct node*)malloc(sizeof(struct node));
+    second->data = 123;
+    second->next = NULL;
+    first->next = second;
+    third = (struct node*)malloc(sizeof(struct node));
+    third->data = 1234;
+    third->next = NULL;
+    second->next = third;
+    count_node(first);
+    print_node(first);
+    head = add_beg(first, 1);
+    count_node(head);
+    print_node(head);
+    head = add_end(head, 12345);
+    count_node(head);
+    print_node(head);
+    head = add_mid(head, 123);
+    count_node(head);
+    print_node(head);
+    head = mid_node(head);
+    count_node(head);
+    print_node(head);
+    head = search_node(head, 1);
+    count_node(head);
+    print_node(head);
+    head = del_mid(head, 789);
+    count_node(head);
+    print_node(head);
+    head = del_beg(head);
+    count_node(head);
+    print_node(head);
+    head = del_end(head);
+    count_node(head);
+    print_node(head);
+    head = sort_node(head);
+    count_node(head);
+    print_node(head);
+    head = reverse_node(head);
+    count_node(head);
+    print_node(head);
+
+
+
+}
+
+struct node* count_node(struct node *head)
+{
+    struct node *ptr = head;
+    int count = 0;
+    while(ptr != NULL)
+    {
+        count += 1;
+        ptr = ptr->next;
+    }
+    printf("\n\nNo. of nodes in linked list is %d", count);
+    return head;
+};
+
+struct node* print_node(struct node *head)
+{
+    struct node *ptr = head;
+    while(ptr != NULL)
+    {
+        printf("\n%d",ptr->data);
+        ptr = ptr->next;
+    }
+    return head;
+};
+
+struct node* add_beg(struct node *head, int num)
+{
+    printf("\n\nInserting a node at the beginning %d", num);
+    struct node  *new_;
+    new_ = (struct node*)malloc(sizeof(struct node));
+    if(head == NULL)
+    {
+        new_->data = num;
+        new_->next = NULL;
+        head = new_;
+
+    }
+    else
+    {
+        new_->data = num;
+        new_->next = head;
+        head = new_;
+
+    }
+    return head;
+
+};
+
+struct node* add_end(struct node *head, int num)
+{
+    printf("\n\nInserting a node at the end %d", num);
+    struct node *ptr = head, *new_;
+    new_ = (struct node*)malloc(sizeof(struct node));
+    if(head == NULL)
+    {
+        new_->data = num;
+        new_->next = NULL;
+        head = new_;
+    }
+    else if(head->next == NULL)
+    {
+        new_->data = num;
+        new_->next = NULL;
+        head->next = new_;
+    }
+    else
+    {
+        while(ptr->next != NULL)
+        {
+            ptr = ptr->next;
+        }
+        new_->data = num;
+        new_->next = NULL;
+        ptr->next = new_;
+    }
+    return head;
+};
+
+struct node* add_mid(struct node *head, int num)
+{
+    printf("\n\nInserting a node in the mid of the linked list %d",num);
+    struct node *ptr = head, *cpt, *new_;
+    new_ = (struct node*)malloc(sizeof(struct node));
+    if(head == NULL)
+    {
+        printf("\n\nLinked list is empty");
+    }
+    else
+    {
+        while(ptr->next->data != num)
+        {
+            cpt = ptr;
+            ptr = ptr->next;
+        }
+        new_->data = 789;
+        new_->next = ptr->next;
+        ptr->next = new_;
+    }
+    return head;
+};
+
+struct node* del_beg(struct node *head)
+{
+    printf("\n\nDeleting a element from the beginning");
+    struct node *ptr = head;
+    if(head == NULL)
+    {
+        printf("\n\nLinked list is empty");
+    }
+    else
+    {
+        head = head->next;
+        ptr = NULL;
+        free(ptr);
+    }
+    return head;
+};
+
+struct node* del_end(struct node *head)
+{
+    printf("\n\nDeleting a element from the end");
+    struct node *ptr = head, *cpt = NULL;
+    if(head == NULL)
+    {
+        printf("\n\nLinked list is empty");
+    }
+    else
+    {
+        while(ptr->next != NULL)
+        {
+            cpt = ptr;
+            ptr = ptr->next;
+        }
+        cpt->next = NULL;
+        free(ptr);
+    }
+    return head;
+};
+
+struct node* del_mid(struct node *head, int num)
+{
+    printf("\n\nDeleting a element from  the mid");
+    struct node *ptr = head, *cpt;
+    if(head == NULL)
+    {
+        printf("\n\nDeletinng the element from the mid");
+    }
+    else
+    {
+        while(ptr->data != num)
+        {
+            cpt = ptr;
+            ptr = ptr->next;
+        }
+        cpt->next = ptr->next;
+        ptr->next = NULL;
+        free(ptr);
+
+
+    }
+    return head;
+};
+
+struct node* sort_node(struct node *head)
+{
+    printf("\n\nSorting of nodes");
+    struct node *ptr1 = head, *ptr2;
+    int temp;
+    while(ptr1 != NULL)
+    {
+        ptr2 = ptr1->next;
+        while(ptr2 != NULL)
+        {
+            if(ptr2->data > ptr1->data)
+            {
+                temp = ptr1->data;
+                ptr1->data = ptr2->data;
+                ptr2->data = temp;
+            }
+            ptr2 = ptr2->next;
+        }
+        ptr1 = ptr1->next;
+    }
+    return head;
+
+};
+
+struct node* reverse_node(struct node *hed)
+{
+    printf("\n\nReversing of a linked list");
+    struct node *head = hed, *next = NULL, *prev = NULL;
+    while(head != NULL)
+    {
+        next = head->next;
+        head->next = prev;
+        prev = head;
+        head = next;
+    }
+    head = prev;
+    return head;
+
+
+};
+
+
+struct node* mid_node(struct node *head)
+{
+    printf("\nFinding the mid element of LL");
+    struct node *fast = head,*slow = head;
+    while(fast != NULL && fast->next != NULL)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    printf("\nThe mid element is %d",slow->data);
+    return head;
+};
+
+struct node* search_node(struct node* head, int num)
+{
+    printf("\nSearching of node in the LL %d", num);
+    struct node *p = head;
+    int count = 0;
+    if(head == NULL)
+    {
+        printf("\nLL is empty");
+    }
+    else
+    {
+        while(p->data != num && p != NULL)
+        {
+            p = p->next;
+            count +=1;
+        }
+        printf("\nThe node position in the Linked list is %d",count +1);
+        return head;
+    }
+};
+
